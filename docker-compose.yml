@@ -1,0 +1,32 @@
+services:
+  # --- BANCO DE DADOS (DATA WAREHOUSE) ---
+  postgres_dw:
+    image: postgres:15
+    container_name: postgres_dw
+    environment:
+      POSTGRES_USER: ${DB_USER:-admin}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-admin123}
+      POSTGRES_DB: dw_glpi
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # --- AIRFLOW (ORQUESTRAÇÃO) ---
+  airflow-webserver:
+    image: apache/airflow:2.7.1-python3.10
+    container_name: airflow_webserver
+    depends_on:
+      - postgres_dw
+    environment:
+      - LOAD_EXEMPLE=False
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${DB_USER:-admin}:${DB_PASSWORD:-admin123}@postgres_dw:5432/dw_glpi
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./extractions:/opt/airflow/extractions
+      - ./logs:/opt/airflow/logs
+
+volumes:
+  postgres_data:
