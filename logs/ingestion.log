@@ -1,0 +1,206 @@
+2026-03-27 12:06:42.126 | INFO     | __main__:run_ingestion:145 - Iniciando extração TOTAL de chamados usando paginação inteligente...
+2026-03-27 12:06:42.126 | INFO     | __main__:get_all_items:46 - Buscando página 1...
+2026-03-27 12:06:43.029 | INFO     | __main__:get_all_items:62 - Processados 100 de 736 itens (página 1)
+2026-03-27 12:06:43.029 | INFO     | __main__:get_all_items:71 - Buscando página 2 (offset 100)...
+2026-03-27 12:06:43.643 | INFO     | __main__:get_all_items:88 - Processados 200 de 736 itens (página 2)
+2026-03-27 12:06:43.643 | INFO     | __main__:get_all_items:71 - Buscando página 3 (offset 200)...
+2026-03-27 12:06:44.456 | INFO     | __main__:get_all_items:88 - Processados 300 de 736 itens (página 3)
+2026-03-27 12:06:44.456 | INFO     | __main__:get_all_items:71 - Buscando página 4 (offset 300)...
+2026-03-27 12:06:45.141 | INFO     | __main__:get_all_items:88 - Processados 400 de 736 itens (página 4)
+2026-03-27 12:06:45.141 | INFO     | __main__:get_all_items:71 - Buscando página 5 (offset 400)...
+2026-03-27 12:06:45.873 | INFO     | __main__:get_all_items:88 - Processados 500 de 736 itens (página 5)
+2026-03-27 12:06:45.873 | INFO     | __main__:get_all_items:71 - Buscando página 6 (offset 500)...
+2026-03-27 12:06:46.604 | INFO     | __main__:get_all_items:88 - Processados 600 de 736 itens (página 6)
+2026-03-27 12:06:46.605 | INFO     | __main__:get_all_items:71 - Buscando página 7 (offset 600)...
+2026-03-27 12:06:47.139 | INFO     | __main__:get_all_items:88 - Processados 700 de 736 itens (página 7)
+2026-03-27 12:06:47.140 | INFO     | __main__:get_all_items:71 - Buscando página 8 (offset 700)...
+2026-03-27 12:06:47.597 | INFO     | __main__:get_all_items:88 - Processados 736 de 736 itens (página 8)
+2026-03-27 12:06:47.597 | INFO     | __main__:get_all_items:91 - Todos os itens foram processados com sucesso.
+2026-03-27 12:06:47.597 | INFO     | __main__:run_ingestion:156 - Iniciando validação de dados (Pydantic Inspector)...
+2026-03-27 12:06:47.602 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280247': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['16', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.602 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280244': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['16', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.602 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280242': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['146', '147'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.603 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '158': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.603 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280323': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['146', '170'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.603 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '122': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.604 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280019': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.604 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280020': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.604 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280021': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.604 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280081': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.604 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280131': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.605 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280132': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '14'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.605 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280213': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['16', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.605 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280223': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['16', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.605 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280224': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '16'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.605 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280228': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '16', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.606 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280229': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['16', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.606 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280230': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['16', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.606 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280255': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['16', '170'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.606 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280293': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['16', '170'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.606 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280393': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '170'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.606 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280476': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '170'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.607 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '119': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.607 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280263': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['16', '146', '149'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.608 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280078': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.608 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280317': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['146', '147'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.609 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280418': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.609 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280419': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '170'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.609 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280035': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.610 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '172': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['16', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.610 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280294': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['16', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.610 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '132': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['16', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.611 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280276': 1 validation error for TicketSchema
+4
+  Input should be a valid string [type=string_type, input_value=['8', '165'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.611 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280510': 1 validation error for TicketSchema
+4
+  Input should be a valid string [type=string_type, input_value=['8', '25'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.612 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280162': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '27'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.614 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280509': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '170'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.614 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '174': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.615 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280346': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '27'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.618 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280272': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['146', '147', '149'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.620 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '175': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '17'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.622 | ERROR    | __main__:run_ingestion:164 - Falha de schema no ticket ID '2504280261': 1 validation error for TicketSchema
+5
+  Input should be a valid string [type=string_type, input_value=['8', '17', '146', '147', '148', '149'], input_type=list]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+2026-03-27 12:06:47.623 | INFO     | __main__:run_ingestion:168 - Preparando dataframe para carga no Data Warehouse...
+2026-03-27 12:06:47.791 | SUCCESS  | __main__:run_ingestion:174 - Carga finalizada! 695 tickets salvos na tabela 'staging_tickets'.
+2026-03-27 12:08:45.321 | INFO     | __main__:run_ingestion:145 - Iniciando extração TOTAL de chamados usando paginação inteligente...
+2026-03-27 12:08:45.321 | INFO     | __main__:get_all_items:46 - Buscando página 1...
+2026-03-27 12:08:46.096 | INFO     | __main__:get_all_items:62 - Processados 100 de 736 itens (página 1)
+2026-03-27 12:08:46.096 | INFO     | __main__:get_all_items:71 - Buscando página 2 (offset 100)...
+2026-03-27 12:08:46.723 | INFO     | __main__:get_all_items:88 - Processados 200 de 736 itens (página 2)
+2026-03-27 12:08:46.724 | INFO     | __main__:get_all_items:71 - Buscando página 3 (offset 200)...
+2026-03-27 12:08:47.335 | INFO     | __main__:get_all_items:88 - Processados 300 de 736 itens (página 3)
+2026-03-27 12:08:47.335 | INFO     | __main__:get_all_items:71 - Buscando página 4 (offset 300)...
+2026-03-27 12:08:47.928 | INFO     | __main__:get_all_items:88 - Processados 400 de 736 itens (página 4)
+2026-03-27 12:08:47.929 | INFO     | __main__:get_all_items:71 - Buscando página 5 (offset 400)...
+2026-03-27 12:08:49.745 | INFO     | __main__:get_all_items:88 - Processados 500 de 736 itens (página 5)
+2026-03-27 12:08:49.745 | INFO     | __main__:get_all_items:71 - Buscando página 6 (offset 500)...
+2026-03-27 12:08:50.428 | INFO     | __main__:get_all_items:88 - Processados 600 de 736 itens (página 6)
+2026-03-27 12:08:50.429 | INFO     | __main__:get_all_items:71 - Buscando página 7 (offset 600)...
+2026-03-27 12:08:51.044 | INFO     | __main__:get_all_items:88 - Processados 700 de 736 itens (página 7)
+2026-03-27 12:08:51.044 | INFO     | __main__:get_all_items:71 - Buscando página 8 (offset 700)...
+2026-03-27 12:08:51.488 | INFO     | __main__:get_all_items:88 - Processados 736 de 736 itens (página 8)
+2026-03-27 12:08:51.488 | INFO     | __main__:get_all_items:91 - Todos os itens foram processados com sucesso.
+2026-03-27 12:08:51.488 | INFO     | __main__:run_ingestion:156 - Iniciando validação de dados (Pydantic Inspector)...
+2026-03-27 12:08:51.499 | INFO     | __main__:run_ingestion:168 - Preparando dataframe para carga no Data Warehouse...
+2026-03-27 12:08:51.678 | SUCCESS  | __main__:run_ingestion:174 - Carga finalizada! 736 tickets salvos na tabela 'staging_tickets'.

@@ -1,5 +1,0 @@
-2026-03-24 15:08:55.382 | INFO     | __main__:discovery_glpi:27 - Iniciando descoberta na URL: https://suporte.secties.pb.gov.br/apirest.php/search/Ticket
-2026-03-24 15:08:55.884 | ERROR    | __main__:discovery_glpi:49 - Falha na descoberta: 401 Client Error: Unauthorized for url: https://suporte.secties.pb.gov.br/apirest.php/search/Ticket?range=0-0&expand_dropdowns=true&get_full_count=true
-2026-03-24 15:11:10.749 | INFO     | __main__:discovery_glpi:27 - Iniciando descoberta na URL: https://suporte.secties.pb.gov.br/apirest.php/search/Ticket
-2026-03-24 15:11:11.429 | SUCCESS  | __main__:discovery_glpi:39 - Ticket recuperado com sucesso!
-2026-03-24 15:11:11.430 | INFO     | __main__:discovery_glpi:44 - Verifique acima qual ID corresponde à 'Categoria' (ex: campo '7').
