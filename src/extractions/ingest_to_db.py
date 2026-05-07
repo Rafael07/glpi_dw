@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from typing import List, Dict, Any, Callable
 
 # Importa o contrato Pydantic
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "schemas"))
 from schemas import TicketSchema
 
 # ==========================================
@@ -99,7 +100,7 @@ class Pagination:
 def run_ingestion():
     load_dotenv()
     
-    DB_URL = "postgresql://admin:admin123@localhost:5432/dw_glpi"
+    DB_URL = f"postgresql://{os.getenv('DW_USER', 'admin')}:{os.getenv('DW_PASSWORD', 'admin123')}@{os.getenv('DW_HOST', 'localhost')}:{os.getenv('DW_PORT', '5432')}/{os.getenv('DW_DATABASE', 'dw_glpi')}"
     API_URL = f"{os.getenv('GLPI_BASE_URL')}/apirest.php/search/Ticket"
     HEADERS = {
         "App-Token": os.getenv('GLPI_APP_TOKEN'),

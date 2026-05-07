@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 # Configurações
 load_dotenv()
-DB_URL = "postgresql://admin:admin123@localhost:5432/dw_glpi"
+DB_URL = f"postgresql://{os.getenv('DW_USER', 'admin')}:{os.getenv('DW_PASSWORD', 'admin123')}@{os.getenv('DW_HOST', 'localhost')}:{os.getenv('DW_PORT', '5432')}/{os.getenv('DW_DATABASE', 'dw_glpi')}"
 
 def build_silver_layer():
     print("Iniciando a transformação para a camada Silver (ELT)...")
@@ -62,16 +62,28 @@ def build_silver_layer():
                 FROM silver_ticket_requerentes
                 GROUP BY ticket_id
             )
-            SELECT 
+            SELECT
                 t.id,
                 t.titulo,
                 t.categoria,
                 t.data_abertura,
+                COALESCE(t.localizacao, 'Sem Localização') AS localizacao,
                 COALESCE(r.requerentes_nomes, 'Sem Requerente') AS requerentes,
                 COALESCE(te.tecnicos_nomes, 'Sem Técnico') AS tecnicos
             FROM staging_tickets t
             LEFT JOIN tec_agrupado te ON t.id = te.ticket_id
             LEFT JOIN req_agrupado r ON t.id = r.ticket_id;
+        """))
+
+        # ---------------------------------------------------------
+        # 4. Criar Tabela de Localizações (Dimensão)
+        # ---------------------------------------------------------
+        print("📍 Construindo silver_locations...")
+        conn.execute(text("""
+            DROP TABLE IF EXISTS silver_locations CASCADE;
+            CREATE TABLE silver_locations AS
+            SELECT id, name
+            FROM staging_locations;
         """))
 
     print("🚀 Camada Silver construída com sucesso no banco de dados!")

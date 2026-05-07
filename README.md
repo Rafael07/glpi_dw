@@ -1,119 +1,194 @@
-Pipeline de Dados e Dashboard GLPI
-==================================
+# Pipeline de Dados e Dashboard GLPI
 
-Este projeto implementa um pipeline de Engenharia de Dados (ELT) focado em extrair, tratar e visualizar indicadores do sistema de chamados GLPI. A solução automatiza a extração via API, realiza a modelagem dos dados em um banco PostgreSQL (através de processamento *push-down*) e serve análises de Business Intelligence por meio de um dashboard interativo.
+Este projeto implementa um pipeline de Engenharia de Dados (ELT) focado em extrair, tratar e visualizar indicadores do sistema de chamados GLPI. A solução consome a API REST do GLPI, valida e persiste os dados em um banco PostgreSQL, realiza transformações diretamente no banco (*push-down*) e serve as análises por meio de um dashboard interativo construído com Streamlit.
 
-🏗️ Arquitetura e Fluxo de Dados
---------------------------------
+---
 
-A arquitetura do projeto é baseada nos conceitos da *Modern Data Stack*, garantindo performance e separação de responsabilidades:
+## Arquitetura e Fluxo de Dados
 
-1.  **Extração (Staging):** Conexão com a API REST do GLPI para consumo de tickets e usuários. Os dados são validados utilizando contratos estruturados antes de serem carregados no banco de dados.
+O projeto segue uma arquitetura em camadas inspirada na *Modern Data Stack*:
 
-2.  **Transformação (Silver):** Processamento ELT executado diretamente no banco de dados (PostgreSQL). Responsável por normalizar arrays (ex: desmembrar IDs de técnicos e requerentes concatenados) e preparar cruzamentos otimizados.
+```
+API GLPI → Staging (Bronze) → Silver → Dashboard (App)
+```
 
-3.  **Apresentação (App):** Interface analítica interativa que consome a camada Silver já mastigada para exibir métricas operacionais, volume de chamados e performance da equipe.
+### Staging (Bronze)
+Scripts de extração consomem a API REST do GLPI com paginação automática e validação de contratos via Pydantic. Os dados brutos são carregados diretamente nas tabelas de staging no PostgreSQL.
 
-📂 Estrutura do Repositório
----------------------------
+| Tabela               | Origem                        | Descrição                              |
+|----------------------|-------------------------------|----------------------------------------|
+| `staging_tickets`    | `/apirest.php/search/Ticket`  | Todos os chamados com técnicos, requerentes e localização |
+| `staging_users`      | `/apirest.php/User`           | Cadastro de usuários (nome, login)     |
+| `staging_locations`  | `/apirest.php/Location`       | Localizações/departamentos cadastrados |
 
-O projeto está organizado com o padrão de desenvolvimento Python, utilizando gerenciamento de dependências moderno.
+### Silver
+Transformações executadas inteiramente em SQL dentro do PostgreSQL (sem movimentação de dados). As tabelas Silver são recriadas a cada execução, garantindo idempotência.
 
-Plaintext
+| Tabela                      | Descrição                                                        |
+|-----------------------------|------------------------------------------------------------------|
+| `silver_tickets`            | Fato principal com nomes de técnicos, requerentes e localização  |
+| `silver_ticket_tecnicos`    | Dimensão explodida: 1 linha por ticket-técnico                   |
+| `silver_ticket_requerentes` | Dimensão explodida: 1 linha por ticket-requerente                |
+| `silver_locations`          | Dimensão de localizações (id, nome)                              |
+
+O GLPI armazena múltiplos técnicos e requerentes como IDs separados por vírgula. A transformação usa `CROSS JOIN LATERAL + unnest()` para explodir esses valores em linhas individuais e `string_agg()` para reagrupar os nomes na tabela fato.
+
+### App (Dashboard)
+Interface analítica construída com Streamlit e Plotly que consome a camada Silver. Permite filtrar por período, localização e técnico, e exibe métricas de volume, comparativos anuais e análise por localização/departamento.
+
+---
+
+## Tecnologias
+
+| Camada          | Tecnologia                         |
+|-----------------|------------------------------------|
+| Linguagem       | Python 3.13                        |
+| Pacotes         | [uv](https://github.com/astral-sh/uv) |
+| Banco de Dados  | PostgreSQL 15 (Docker)             |
+| Validação       | Pydantic                           |
+| ORM / SQL       | SQLAlchemy + SQL nativo            |
+| Processamento   | Pandas                             |
+| Dashboard       | Streamlit + Plotly                 |
+| Logs            | Loguru                             |
+
+---
+
+## Estrutura do Repositório
 
 ```
 .
-├── README.md               # Documentação do projeto
-├── dags/                   # Diretório reservado para futura orquestração
-├── docker-compose.yml      # Infraestrutura local (banco de dados Postgres, etc.)
-├── logs/                   # Arquivos de log de execução (ex: ingestion.log)
-├── pyproject.toml          # Configurações do projeto e dependências principais
-├── uv.lock                 # Lockfile de dependências (gerenciado pelo uv)
-└── src/                    # Código-fonte principal
-    ├── app/                # Camada de Visualização (Front-end)
-    │   ├── main.py         # Dashboard legado (Staging direta)
-    │   └── main_silver.py  # Dashboard otimizado (consome a camada Silver)
-    ├── extractions/        # Camada de Ingestão (API -> Staging)
-    │   ├── api_call.py     # Lógica de paginação e requisições à API
-    │   ├── get_session.py  # Gerenciamento de token e sessão do GLPI
-    │   ├── ingest_to_db.py # Script de carga da tabela de tickets
-    │   └── ingest_users.py # Script de carga da tabela de usuários
-    ├── schemas/            # Contratos de Dados
-    │   └── schemas.py      # Modelos Pydantic para validação da API
-    └── transform/          # Camada de Modelagem (Staging -> Silver)
-        └── build_silver.py # Script ELT com queries de tratamento no banco
-
+├── docker-compose.yml          # Infraestrutura local (PostgreSQL)
+├── pyproject.toml              # Dependências do projeto
+├── uv.lock                     # Lockfile gerado pelo uv
+├── .env.example                # Modelo de variáveis de ambiente
+├── logs/                       # Logs de execução gerados automaticamente
+├── dags/                       # Reservado para orquestração futura (Airflow)
+└── src/
+    ├── app/
+    │   └── main.py             # Dashboard principal (consome camada Silver)
+    ├── extractions/
+    │   ├── ingest_to_db.py     # Extração de tickets com paginação e validação Pydantic
+    │   ├── ingest_users.py     # Extração de usuários
+    │   └── ingest_locations.py # Extração de localizações/departamentos
+    ├── schemas/
+    │   └── schemas.py          # Contratos Pydantic para validação da API
+    ├── transform/
+    │   └── build_silver.py     # Transformações ELT (Staging → Silver)
+    └── utils/
+        ├── get_session.py      # Renovação do token de sessão do GLPI
+        └── api_call.py         # Utilitário de descoberta de campos da API
 ```
 
-🚀 Tecnologias Utilizadas
--------------------------
+---
 
--   **Linguagem:** Python 3.13
+## Como Executar
 
--   **Gerenciador de Pacotes:** [uv](https://github.com/astral-sh/uv)
+### Pré-requisitos
 
--   **Banco de Dados:** PostgreSQL (via Docker)
+- [Docker](https://www.docker.com/) instalado e em execução
+- [uv](https://github.com/astral-sh/uv) instalado (`curl -sSf https://astral.sh/uv/install.sh | sh`)
 
--   **Modelagem e ORM:** SQLAlchemy, SQL nativo
+### 1. Configurar as variáveis de ambiente
 
--   **Validação de Dados:** Pydantic
+Copie o arquivo de exemplo e preencha com suas credenciais:
 
--   **Processamento:** Pandas
-
--   **Visualização de Dados:** Streamlit, Plotly
-
-⚙️ Como Executar o Projeto
---------------------------
-
-Certifique-se de ter o Docker e o gerenciador de pacotes `uv` instalados em sua máquina.
-
-**1\. Subir a infraestrutura:**
-
-Inicie o banco de dados PostgreSQL utilizando o Docker Compose.
-
-Bash
-
+```bash
+cp .env.example .env
 ```
+
+Edite o `.env` com os dados da sua instância GLPI e do banco de dados:
+
+```env
+# API GLPI
+GLPI_BASE_URL="https://sua-instancia.glpi.com"
+GLPI_APP_TOKEN='seu_app_token'
+GLPI_USER_TOKEN='seu_user_token'
+GLPI_SESSION_TOKEN=''          # deixe em branco, será preenchido automaticamente
+
+# PostgreSQL
+DW_HOST=host_address
+DW_PORT=host_port
+DW_DATABASE=db_name
+DW_USER=db_user
+DW_PASSWORD=db_password
+
+LOG_LEVEL=INFO
+```
+
+> O `GLPI_APP_TOKEN` é gerado nas configurações da API do GLPI. O `GLPI_USER_TOKEN` é obtido nas configurações do usuário dentro do GLPI.
+
+### 2. Subir o banco de dados
+
+```bash
 docker-compose up -d
-
 ```
 
-**2\. Instalar as dependências:**
+### 3. Instalar as dependências
 
-Utilize o `uv` para sincronizar o ambiente virtual e instalar as bibliotecas.
-
-Bash
-
-```
+```bash
 uv sync
-
 ```
 
-**3\. Executar o Pipeline (ELT):**
+### 4. Obter o token de sessão
 
-Atualmente, o pipeline é executado em etapas. Rode os scripts na seguinte ordem para garantir a integridade dos dados:
+O token de sessão do GLPI expira periodicamente. Execute este script antes de qualquer extração para renovar o token e atualizar o `.env` automaticamente:
 
-Bash
-
+```bash
+uv run src/utils/get_session.py
 ```
-# Extração para a camada Staging
-uv run src/extractions/ingest_users.py
-uv run src/extractions/ingest_to_db.py
 
-# Transformação para a camada Silver
+### 5. Executar o pipeline de extração (Staging)
+
+Os scripts de extração devem ser rodados na seguinte ordem:
+
+```bash
+uv run src/extractions/ingest_users.py       # Carrega usuários
+uv run src/extractions/ingest_to_db.py       # Carrega tickets (com paginação automática)
+uv run src/extractions/ingest_locations.py   # Carrega localizações/departamentos
+```
+
+Cada execução substitui completamente a tabela de staging correspondente (`if_exists='replace'`), garantindo que não haja duplicidade.
+
+### 6. Executar a transformação (Silver)
+
+```bash
 uv run src/transform/build_silver.py
-
 ```
 
-**4\. Acessar o Dashboard:**
+Este script executa todas as transformações SQL diretamente no PostgreSQL, recriando as quatro tabelas da camada Silver do zero.
 
-Inicie a aplicação Streamlit apontando para a versão mais atual do painel (Silver).
+### 7. Iniciar o dashboard
 
-Bash
-
-```
-uv run streamlit run src/app/main_silver.py
-
+```bash
+uv run streamlit run src/app/main.py
 ```
 
-A aplicação estará disponível no seu navegador, geralmente no endereço `http://localhost:8501`.
+Acesse em: `http://localhost:8501`
+
+---
+
+## Detalhes do Pipeline
+
+### Paginação automática de tickets
+
+O script `ingest_to_db.py` implementa uma classe `Pagination` que gerencia automaticamente a paginação da API do GLPI. Ela lê o total de registros pelo header `Content-Range` e busca os dados de 100 em 100 itens, tratando o erro `ERROR_RANGE_EXCEED_TOTAL` (status 400) que o GLPI retorna ao ultrapassar o range.
+
+### Validação com Pydantic
+
+Cada ticket retornado pela API é validado contra o schema `TicketSchema` antes de ser carregado no banco. O schema mapeia os IDs numéricos dos campos do GLPI (ex: `"2"` → `id`, `"7"` → `categoria`, `"83"` → `localizacao`) para campos com nomes legíveis, e normaliza múltiplos técnicos/requerentes em strings separadas por vírgula.
+
+### Renovação de token
+
+O GLPI utiliza um modelo de autenticação em duas etapas: `App-Token` (fixo, configurado na API) + `Session-Token` (temporário, obtido via login). O script `get_session.py` automatiza a renovação, escrevendo o novo token diretamente no `.env`.
+
+---
+
+## Contribuindo
+
+1. Faça um fork do repositório
+2. Crie uma branch para sua feature: `git checkout -b feature/minha-feature`
+3. Faça suas alterações e commit: `git commit -m 'feat: descrição da mudança'`
+4. Envie para o seu fork: `git push origin feature/minha-feature`
+5. Abra um Pull Request descrevendo o que foi alterado e por quê
+
+Ao contribuir, certifique-se de nunca commitar o arquivo `.env` com credenciais reais. Use sempre o `.env.example` como referência.

@@ -11,6 +11,8 @@ class TicketSchema(BaseModel):
     data_abertura: datetime = Field(..., alias="15")
     categoria: str = Field(default="Sem categoria", alias="7")
     
+    localizacao: Optional[str] = Field(default="Sem Localização", alias="83")
+
     # IDs para futuras dimensões
     requerente_id: Optional[str] = Field(None, alias="4")
     tecnico_id: Optional[str] = Field(None, alias="5")

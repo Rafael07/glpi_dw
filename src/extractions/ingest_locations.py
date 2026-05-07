@@ -23,7 +23,7 @@ load_dotenv()
 GLPI_URL = os.getenv("GLPI_BASE_URL")
 APP_TOKEN = os.getenv("GLPI_APP_TOKEN")
 SESSION_TOKEN = os.getenv("GLPI_SESSION_TOKEN") # O ideal é importar do seu get_session.py
-DB_URL = "postgresql://admin:admin123@localhost:5432/dw_glpi"
+DB_URL = f"postgresql://{os.getenv('DW_USER', 'admin')}:{os.getenv('DW_PASSWORD', 'admin123')}@{os.getenv('DW_HOST', 'localhost')}:{os.getenv('DW_PORT', '5432')}/{os.getenv('DW_DATABASE', 'dw_glpi')}"
 
 # ==========================================
 # 2. FUNÇÃO DE EXTRAÇÃO DA API
@@ -77,9 +77,10 @@ def load_to_database(locations_data: list):
     try:
         logger.info("Convertendo dados para DataFrame Pandas...")
         df_locations = pd.DataFrame(locations_data)
-        
-        # Limpeza básica (ex: remover colunas aninhadas muito complexas se houver)
-        # Manteremos as colunas principais como 'id', 'name', 'completename', 'locations_id'
+
+        # Remove colunas com tipos não serializáveis (listas/dicts) e caches internos do GLPI
+        cols_drop = [c for c in ['links', 'sons_cache', 'ancestors_cache'] if c in df_locations.columns]
+        df_locations.drop(columns=cols_drop, inplace=True)
         
         logger.info("Conectando ao banco de dados PostgreSQL...")
         engine = create_engine(DB_URL)

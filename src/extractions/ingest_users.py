@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 # ==========================================
 load_dotenv()
 
-DB_URL = "postgresql://admin:admin123@localhost:5432/dw_glpi"
+DB_URL = f"postgresql://{os.getenv('DW_USER', 'admin')}:{os.getenv('DW_PASSWORD', 'admin123')}@{os.getenv('DW_HOST', 'localhost')}:{os.getenv('DW_PORT', '5432')}/{os.getenv('DW_DATABASE', 'dw_glpi')}"
 # Ajuste do endpoint para buscar os Usuários
 API_URL = f"{os.getenv('GLPI_BASE_URL')}/apirest.php/User"
 
