@@ -15,3 +15,6 @@ wheels/
 CLAUDE.md
 .claude/
 briefing.md
+
+# Private folders
+logs/
