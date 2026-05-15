@@ -26,6 +26,7 @@ services:
     env_file: .env
     environment:
       DW_HOST: postgres_dw
+      DW_PORT: "5432"
     ports:
       - "8501:8501"
     depends_on:
